@@ -1,0 +1,89 @@
+generated: '2026-09-17'
+method: probed
+status: published
+source: https://x402.coinopai.com/mcp
+deployment:
+  mode: both
+  endpoint: https://x402.coinopai.com/mcp
+  install: npx -y coinopai-mcp
+  package: https://www.npmjs.com/package/coinopai-mcp
+  auth: unknown
+  verified: probed
+  note: >-
+    Remote endpoint POST https://x402.coinopai.com/mcp returned HTTP 402 (x402 payment
+    challenge) on tools/list — the server is live but the tool schema is payment-gated
+    (pay 0.15 USDC on Base and retry). The first-party stdio package `coinopai-mcp`
+    (npm, v2.0.2, homepage https://x402.coinopai.com) wraps the same paid toolset with
+    automatic x402 payments. `auth` recorded as unknown because access is settled per
+    call via x402 micropayment rather than an API key or OAuth token.
+server:
+  name: coinopai
+  transport: http
+  url: https://x402.coinopai.com/mcp
+tool_schema_source: >-
+  Tool names/descriptions taken from the provider's published agent card (22 skills)
+  and llms.txt; per-tool inputSchema requires an authenticated (paid) tools/list call.
+tools:
+  - name: kronos-signals
+    description: Kronos hourly crypto signal scores (BTC, ETH, …), score details and freshness
+    source_operation: openapi/crypto-market-signals-forecast-openapi-original.json#getKronosSignals
+  - name: kronos-history
+    description: Rolling crypto signal history for analysis
+    source_operation: openapi/crypto-market-signals-forecast-openapi-original.json#getKronosHistory
+  - name: kronos-preflight
+    description: Market-state preflight (risk_state, review_level, directional_bias, thresholds)
+    source_operation: openapi/crypto-market-signals-forecast-openapi-original.json#getKronosPreflight
+  - name: kronos-decision
+    description: Auditable market-intelligence decision journal with decision_id
+    source_operation: openapi/crypto-market-signals-forecast-openapi-original.json#getKronosDecision
+  - name: kronos-audit
+    description: Outcome audit for a prior decision_id versus real prices
+    source_operation: openapi/crypto-market-signals-forecast-openapi-original.json#getKronosAudit
+  - name: kronos-forecast
+    description: Conformally-calibrated 80% crypto price range
+    source_operation: openapi/crypto-market-signals-forecast-openapi-original.json#getKronosForecast
+  - name: kronos-risk
+    description: Current crypto risk state with cooldown context
+    source_operation: openapi/crypto-market-signals-forecast-openapi-original.json#getKronosRisk
+  - name: signals
+    description: Current crypto market context, score details and freshness
+    source_operation: openapi/crypto-market-signals-forecast-openapi-original.json#getCryptoSignals
+  - name: whale
+    description: Whale, CEX, bridge and stablecoin flow alerts
+    source_operation: openapi/crypto-market-signals-forecast-openapi-original.json#getCryptoWhaleAlerts
+  - name: anomaly
+    description: Anomaly review for a proposed crypto market signal
+    source_operation: openapi/crypto-market-signals-forecast-openapi-original.json#runAnomaly
+  - name: calibration
+    description: Confidence calibration for a market-intelligence signal
+    source_operation: openapi/crypto-market-signals-forecast-openapi-original.json#runCalibration
+  - name: verify
+    description: Preflight review for autonomous decision-support workflows
+    source_operation: openapi/crypto-market-signals-forecast-openapi-original.json#runVerification
+  - name: catalog
+    description: Catalog of anomaly, calibration and verification products
+    source_operation: openapi/crypto-market-signals-forecast-openapi-original.json#getCatalog
+  - name: categories
+    description: ForgeMesh service catalog — top-level product categories
+    source_operation: openapi/crypto-market-signals-forecast-openapi-original.json#getCategories
+  - name: services
+    description: ForgeMesh service catalog — purchasable service cards
+    source_operation: openapi/crypto-market-signals-forecast-openapi-original.json#getServices
+  - name: search
+    description: Full-text search over 819 agent automation prompts and workflows
+    source_operation: openapi/crypto-market-signals-forecast-openapi-original.json#searchAutomations
+  - name: automation-slug
+    description: Get a full automation workflow prompt by slug
+    source_operation: openapi/crypto-market-signals-forecast-openapi-original.json#getAutomation
+  - name: feedback
+    description: Send paid feedback or feature requests
+    source_operation: openapi/crypto-market-signals-forecast-openapi-original.json#submitFeedback
+mcp_only_tools:
+  - name: image-generate
+    reason: Media-generation tool exposed via MCP/agent card; no public REST operation in this OpenAPI
+  - name: image-styles
+    reason: Lists image styles; no public REST operation in this OpenAPI
+  - name: signal-symbol
+    reason: Single-symbol convenience alias (/signal/{SYMBOL}); not a distinct OpenAPI operation
+  - name: mcp
+    reason: The hosted MCP JSON-RPC endpoint itself, surfaced as a self-referential skill

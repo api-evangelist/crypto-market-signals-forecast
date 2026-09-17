@@ -1,0 +1,42 @@
+generated: '2026-09-17'
+method: derived
+source: openapi/crypto-market-signals-forecast-openapi-original.json
+format: none
+note: >-
+  Error responses are declared in the OpenAPI by status code with human descriptions;
+  the API does not use RFC 9457 application/problem+json. The 402 response is the x402
+  payment challenge (body carries x402Version/error/accepts[] with the payment
+  requirements, not a problem+json document). Titles/remediation below are derived from
+  the spec response descriptions.
+problems:
+  - status: 400
+    title: Invalid request payload
+    detail: >-
+      A POST body failed validation (missing/invalid symbol, features, or parameters),
+      or a bad query parameter (e.g. invalid chain or lookback on the whale endpoint).
+    remediation: Correct the request body/parameters against the operation schema and retry.
+    source_operations:
+      - submitFeedback
+      - runAnomaly
+      - runCalibration
+      - runVerification
+      - getCryptoWhaleAlerts
+  - status: 402
+    title: Payment Required (x402)
+    detail: >-
+      The route is a paid endpoint. The response body is an x402 challenge
+      (x402Version, error, accepts[]) naming the price, asset (USDC on Base,
+      eip155:8453), payTo wallet and facilitator.
+    remediation: >-
+      Settle the x402 micropayment in USDC on Base and retry with the PAYMENT-SIGNATURE
+      header. No API key or account is used.
+    applies_to: all paid routes (every operation except the root landing route)
+  - status: 404
+    title: Not found
+    detail: >-
+      The referenced resource does not exist — an unknown automation slug
+      (getAutomation) or an unknown decision_id (getKronosAudit).
+    remediation: Verify the slug / decision_id and retry.
+    source_operations:
+      - getAutomation
+      - getKronosAudit

@@ -1,0 +1,49 @@
+generated: '2026-09-17'
+method: searched
+source:
+  - https://x402.coinopai.com/openapi.json
+  - https://x402.coinopai.com/.well-known/agent-card.json
+  - https://x402.coinopai.com/llms.txt
+note: >-
+  The provider's market-standard signature is x402 — the HTTP 402 agentic micropayment
+  protocol — declared in the contract itself (root x-x402 block: network, payTo,
+  facilitator, and named x402 extensions) and confirmed live at POST /mcp and on every
+  paid route. This is the domain standard for the agent-payments market this API serves.
+standards:
+  - id: x402
+    conforms: true
+    evidence: >-
+      Root x-x402 extension declares network eip155:8453, payTo wallet, facilitator, and
+      the bazaar / payment-identifier / offer-receipt / builder-code extensions; every
+      paid route returns a conformant x402 402 challenge (verified on POST /mcp).
+    role: domain-standard
+  - id: erc-8021-builder-code
+    conforms: false
+    evidence: >-
+      x-x402.extensions.builder-code present but status
+      "configured_when_builder_code_present" with code null — attribution not yet minted.
+  - id: eip-2612-gas-sponsoring
+    conforms: false
+    evidence: x-x402 marks it not_exported_by_installed_extensions_package.
+  - id: oauth2
+    conforms: false
+    evidence: No oauth2 securityScheme; access is settled via x402 payment.
+  - id: openid-connect
+    conforms: false
+    evidence: No /.well-known/openid-configuration served (404).
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: Error responses do not use application/problem+json.
+  - id: pagination
+    conforms: true
+    evidence: >-
+      searchAutomations exposes limit/offset query params and returns
+      total/limit/offset in the response envelope.
+  - id: a2a
+    conforms: true
+    evidence: >-
+      Serves a near-conformant A2A 1.0 agent card at /.well-known/agent-card.json
+      (22 skills); see a2a/.
+  - id: mcp
+    conforms: true
+    evidence: Hosted MCP JSON-RPC endpoint live at POST /mcp (payment-gated); see mcp/.

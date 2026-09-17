@@ -1,0 +1,29 @@
+generated: '2026-09-17'
+method: searched
+source: https://x402.coinopai.com/llms.txt
+model: pay-per-call
+currency: USDC
+network: Base mainnet (eip155:8453)
+note: >-
+  No subscription tiers or accounts — pricing is per-call x402 micropayment in USDC on
+  Base. There are no free/paid plan tiers; each route has its own price. plan_count
+  reflects that this is a metered pay-per-call model, not a tiered plan model. Prices
+  read verbatim from the provider's llms.txt.
+plan_count: 0
+per_call_prices:
+  - {route: 'GET /api/kronos/signals', price_usd: 0.05}
+  - {route: 'GET /api/kronos/history', price_usd: 0.05}
+  - {route: 'GET /api/kronos/preflight', price_usd: 0.05}
+  - {route: 'GET /api/kronos/decision', price_usd: 0.15}
+  - {route: 'GET /api/kronos/audit', price_usd: 0.07}
+  - {route: 'GET /api/kronos/forecast', price_usd: 0.05}
+  - {route: 'GET /api/kronos/risk', price_usd: 0.02}
+  - {route: 'GET /api/catalog', price_usd: 0.005}
+  - {route: 'POST /api/anomaly', price_usd: 0.07}
+  - {route: 'POST /api/calibration', price_usd: 0.05}
+  - {route: 'POST /api/verify', price_usd: 0.05}
+  - {route: 'GET /api/categories', price_usd: 0.005}
+  - {route: 'GET /api/services', price_usd: 0.005}
+  - {route: 'GET /api/search', price_usd: 0.01}
+  - {route: 'GET /api/automation/{slug}', price_usd: 0.01}
+  - {route: 'POST /api/mcp (hosted MCP endpoint)', price_usd: 0.15}

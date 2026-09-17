@@ -1,0 +1,56 @@
+generated: '2026-09-17'
+method: searched
+source:
+  - https://x402.coinopai.com/openapi.json
+  - https://x402.coinopai.com/llms.txt
+authentication:
+  style: x402-payment
+  detail: >-
+    No API key or OAuth. Paid routes answer HTTP 402 with an x402 challenge; settle USDC
+    on Base and retry with PAYMENT-SIGNATURE. See authentication/.
+idempotency:
+  coverage: partial
+  scope:
+    - all paid routes (via the optional x402 payment-identifier extension)
+  mechanism: x402 payment-identifier extension
+  header: null
+  detail: >-
+    The provider ships the x402 "payment-identifier" extension (status live,
+    required:false) — optional retry-safe logical request identifiers for x402 clients,
+    plus signed offer/receipt with a 300s offer validity. This gives replay/retry safety
+    at the payment layer across every paid route, but it is OPTIONAL and there is no
+    documented Idempotency-Key header on the operations themselves. The POST analysis
+    routes (anomaly/calibration/verify) are pure computations and naturally idempotent;
+    feedback submission is the only true write.
+pagination:
+  style: limit-offset
+  params: [limit, offset]
+  response_fields: [total, limit, offset, results]
+  applies_to: [searchAutomations]
+field_expansion: null
+metadata:
+  detail: >-
+    Every response carries response_schema_version, compliance_mode
+    (market_intelligence_only) and generated_for (research_and_decision_support); Kronos
+    decision responses carry a decision_id used later by getKronosAudit.
+request_tracing:
+  header: null
+  detail: No request-id/trace header documented; decision_id links a decision to its later audit.
+versioning:
+  detail: response_schema_version field per payload; see lifecycle/.
+error_envelope:
+  detail: >-
+    Status-code responses with human descriptions (no RFC 9457). 402 returns the x402
+    challenge envelope (x402Version, error, accepts[]). See errors/.
+rate_limit_signaling:
+  detail: No rate-limit headers documented; access is metered economically by per-call payment.
+reversibility:
+  state: na
+  detail: >-
+    The API is read/analysis-oriented. GET routes return market intelligence; the POST
+    routes (anomaly, calibration, verify) are stateless scoring computations and feedback
+    submission is append-only — none creates a reversible resource or a financial state
+    change on the provider side. decision_id journaling is an audit record, not an action
+    to undo. No cancel/refund/void/reverse operation exists or is needed. The x402
+    payment settlement itself is atomic on-chain and outside the API's control surface.
+  dry_run: na

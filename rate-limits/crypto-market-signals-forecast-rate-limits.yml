@@ -1,0 +1,15 @@
+generated: '2026-09-17'
+method: searched
+source:
+  - https://x402.coinopai.com/openapi.json
+  - https://x402.coinopai.com/llms.txt
+limit_count: 0
+note: >-
+  No rate limits are documented and no rate-limit response headers (X-RateLimit-*,
+  RateLimit-*, Retry-After) are declared in the OpenAPI or described in llms.txt. Access
+  is metered economically: each call requires an x402 micropayment, so throughput is
+  gated by willingness to pay rather than a request quota. The x402 offer-receipt
+  extension sets a 300s offer validity and the /mcp challenge advertises a 1800s payment
+  timeout, but these are payment windows, not request-rate limits.
+limits: []
+headers: []

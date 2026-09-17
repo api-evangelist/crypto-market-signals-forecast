@@ -1,0 +1,38 @@
+generated: '2026-09-17'
+method: probed
+source: https://x402.coinopai.com/.well-known/agent-card.json
+discovery:
+  path: /.well-known/agent-card.json
+  canonical: true
+  host: x402.coinopai.com
+  note: >-
+    Also served identically at the legacy /.well-known/agent.json on the same host
+    (HTTP 200). A parent-brand card is served at coinopai.com/.well-known/agent-card.json
+    ("CoinOpAI"); this manifest records the API-host card ("Kronos by ForgeMesh") whose
+    url is https://x402.coinopai.com, matching this profile's baseURL.
+conformance:
+  spec: A2A 1.0.0
+  grade: near-conformant
+  protocol_version: '1.0'
+  preferred_transport: null
+  deviations:
+    - no-preferredTransport
+    - supportedInterfaces-instead-of-additionalInterfaces
+  note: >-
+    Passes all hard checks (capabilities is an object, protocolVersion present, skills
+    is an array of 22). Downgraded from conformant only for missing optional fields:
+    no preferredTransport, and it declares supportedInterfaces rather than the A2A 1.0
+    additionalInterfaces.
+card:
+  name: Kronos by ForgeMesh
+  url: https://x402.coinopai.com
+  version: 1.0.0
+  provider: ForgeMesh Labs
+  skills: 22
+  file: crypto-market-signals-forecast-agent-card.json
+x-evidence:
+  fetched: '2026-09-17'
+  url: https://x402.coinopai.com/.well-known/agent-card.json
+  http_status: 200
+  content_type: application/json
+  negative_control: passed
